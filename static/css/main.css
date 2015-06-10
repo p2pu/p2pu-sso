@@ -72,6 +72,34 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+body{
+    background-color: #F3F4F8;
+}
+
+.login-form-wrap{
+    background-color: #ffffff;
+    padding: 1.5em;
+}
+
+.login-option{
+    margin-bottom: 2em;
+}
+
+.login-option li{
+    width: 50%;
+}
+
+.login-option li+li{
+    margin: 0;
+}
+
+.login-option li a{
+    text-align: center;
+}
+
+.login-form-title{
+    margin: 2.5em 0;
+}
 
 
 
