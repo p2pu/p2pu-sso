@@ -5,7 +5,7 @@ Settings module for P2PU SSO application
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '..')
 
 
 # Quick-start development settings - unsuitable for production
@@ -54,7 +54,7 @@ ROOT_URLCONF = 'sso.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [os.path.join(BASE_DIR, 'templates'), ],
+		'DIRS': [os.path.join(BASE_DIR, 'templates')],
 		'APP_DIRS': True,
 		'OPTIONS': {
 			'context_processors': [
@@ -116,7 +116,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles/')
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, '../static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
 DEFAULT_FROM_EMAIL = 'admin@p2pu.org'

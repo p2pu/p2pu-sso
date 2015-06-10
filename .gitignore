@@ -39,3 +39,6 @@ coverage.xml
 
 # Local Settings
 settings_local.py
+
+# Dev Database
+db.sqlite3
