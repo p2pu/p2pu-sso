@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Sign Up" %}{% endblock %}
+
+{% block content %}
+	<div class="login-form-wrap col-md-4 col-md-offset-4">
+		<ul class="login-option nav nav-pills col-md-12">
+			<li role="presentation"><a href="{% url 'account_login' %}"
+					>{% trans 'Log In' %}</a></li>
+			<li role="presentation" class="active">
+				<a href="{% url 'account_signup' %}">{% trans 'Sign Up' %}</a></li>
+		</ul>
+
+		<h2 class="login-form-title text-center ">{% trans 'Sign Up' %}</h2>
+
+		<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+		  {% csrf_token %}
+		  {{ form.as_p }}
+		  {% if redirect_field_value %}
+		  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+		  {% endif %}
+		  <button type="submit" class="btn btn-default">{% trans "Sign Up" %} &raquo;</button>
+		</form>
+	</div>
+
+{% endblock %}
