@@ -10,9 +10,13 @@ from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.conf import settings
 
+from .decorators import get_discourse_request_host
 
+
+@get_discourse_request_host
 @login_required
 def sso(request):
+	referer = request.session.get('referer')
 	payload = request.GET.get('sso')
 	signature = request.GET.get('sig')
 
@@ -55,7 +59,10 @@ def sso(request):
 
 	# Redirect back to origin
 
-	url = '%s/session/sso_login' % settings.DISCOURSE_BASE_URL
+	if referer not in settings.DISCOURSE_BASE_URLS:
+		return HttpResponseBadRequest('Where are you comming from?')
+
+	url = '%s/session/sso_login' % referer
 
 	return HttpResponseRedirect('%s?%s' % (url, query_string))
 
