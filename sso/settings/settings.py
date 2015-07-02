@@ -17,7 +17,7 @@ SECRET_KEY = 's29!^ck-rersb**cy4)_md1l_z6v)wt*&nrx@poh5uw0yf9-^b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.p2pu.org', 'localhost', '127.0.0.1']
 
 SITE_ID = 1
 
