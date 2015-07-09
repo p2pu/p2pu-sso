@@ -3,5 +3,5 @@ from discourse import views
 
 urlpatterns = patterns(
 	'',
-	url(r'^sso/$', views.sso, name='discourse_sso'),
+	url(r'^login/$', views.login, name='discourse_login'),
 )

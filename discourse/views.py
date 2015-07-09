@@ -15,7 +15,7 @@ from .decorators import get_discourse_request_host
 
 @get_discourse_request_host
 @login_required
-def sso(request):
+def login(request):
 	referer = request.session.get('referer')
 	payload = request.GET.get('sso')
 	signature = request.GET.get('sig')
