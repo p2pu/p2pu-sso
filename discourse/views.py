@@ -1,17 +1,21 @@
 import base64
 import hashlib
 import hmac
+import logging
 import urllib
 
 from urlparse import parse_qs
+from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.conf import settings
 
 from .decorators import get_discourse_request_host
 
+Log = logging.getLogger('discourse.views')
 
 @get_discourse_request_host
 @login_required
@@ -21,8 +25,8 @@ def login(request):
 	signature = request.GET.get('sig')
 
 	if None in [payload, signature]:
-		return HttpResponseBadRequest(
-			'No SSO Playload or signature. Please contact support if this problem persists.')
+		Log.error('Payload or signature not existing for user %s' % request.user.email)
+		return HttpResponseRedirect(reverse('error-login'))
 
 	# Validating playload
 	try:
@@ -31,6 +35,7 @@ def login(request):
 		assert 'nonce' in decoded
 		assert len(payload) > 0
 	except AssertionError:
+		Log.error('Invalid plyload for user %s' % request.user.email)
 		return HttpResponseBadRequest(
 			'Invalid plyload. Please contact support if this problem persists')
 
@@ -40,10 +45,10 @@ def login(request):
 	this_signature = h.hexdigest()
 
 	if this_signature != signature:
+		Log.error('Signature for user %s is not correct' % request.user.email)
 		return HttpResponseBadRequest(
 			'Invalid payload. Please contact support if this problem persists.')
 
-	# TODO: Create user
 	# Build the return payload
 	qs = parse_qs(decoded)
 	params = {
@@ -60,7 +65,8 @@ def login(request):
 	# Redirect back to origin
 
 	if referer not in settings.DISCOURSE_BASE_URLS:
-		return HttpResponseBadRequest('Where are you comming from?')
+		Log.error('Invalid referer for user %s. Referer: %s' % (request.user.email, referer))
+		return HttpResponseRedirect(reverse('error-login'))
 
 	url = '%s/session/sso_login' % referer
 
