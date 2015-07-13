@@ -14,6 +14,9 @@ def get_discourse_request_host(function):
 		host = req.META.get('HTTP_HOST')
 		referer = req.META.get('HTTP_REFERER')
 
+		Log.info('host: %s' % host)
+		Log.info('referer: %s' % referer)
+
 		if referer and host not in referer:
 			if referer not in settings.DISCOURSE_BASE_URLS:
 				Log.error('Process originated from an unknown place. The refferer %s is not allowed.' % referer)
@@ -23,7 +26,7 @@ def get_discourse_request_host(function):
 			req.session['referer'] = req.META.get('HTTP_REFERER')
 			Log.info('User comes from %s' % req.session['referer'])
 		else:
-			Log.debug('User originates from the current host %s, but it should from one of the approved '
+			Log.error('User originates from the current host %s, but it should from one of the approved '
 					  'discourse instances.' % host)
 
 		return function(*args, **kwargs)

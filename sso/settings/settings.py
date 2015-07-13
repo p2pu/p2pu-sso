@@ -36,6 +36,7 @@ INSTALLED_APPS = (
 	'allauth.socialaccount',
 	'allauth.socialaccount.providers.google',
 	'djrill',
+	'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -143,6 +144,11 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
+###########################################
+# CELERY SETTINGS
+###########################################
+BROKER_URL = ''
+BROKER_TRANSPORT = ''
 
 #############################################################################
 # Logging settings
