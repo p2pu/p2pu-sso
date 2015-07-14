@@ -1,19 +1,13 @@
 """
 Tests for loging in and signing up
 """
-from binascii import Error
-from django.http import HttpResponse
-from mock import patch
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.test import Client
 from django.core.urlresolvers import reverse
 
-
-# Tests needed for tasks:
-# * login from discourse with existing user and all the payload ok
-# * login from discourse with corrupted payload
-# * login from discourse with corrupted sig
+# TODO:
+# Tests needed for tasks:#
 # * signup new user coming from discourse
 
 
@@ -50,15 +44,39 @@ class LoginDiscourseTests(TestCase):
 	def test_login_corrupted_payload(self):
 		self.client.login(username=self.user.username, password=self.password)
 		extra_headers = {'HTTP_REFERER': 'http://testserver', 'HTTP_HOST': 'sso.p2pu.org'}
-		response = self.client.get('%s?sso=%s&sig=%s' % (reverse('discourse_login'), '12345',
-		                                                 self.sig), follow=False, **extra_headers)
 
-		self.assertRaises(Error)
-		self.assertEquals(response['Location'], reverse('error-login'))
+		response = self.client.get('%s?sso=%s&sig=%s' % (reverse('discourse_login'), None, self.sig))
+
 		self.assertRedirects(response, reverse('error-login'))
 
+		self.assertRaises(TypeError,
+		                  self.client.get('%s?sso=%s&sig=%s' % (reverse('discourse_login'), '', self.sig),
+		                                  follow=False, **extra_headers))
+		self.assertRaises(TypeError,
+		                  self.client.get('%s?sso=%s&sig=%s' % (reverse('discourse_login'), '12345',
+		                                                        self.sig),
+		                                  follow=False, **extra_headers))
+		self.assertRaises(TypeError,
+		                  self.client.get('%s?sso=%s&sig=%s' % (reverse('discourse_login'), 'dd12345fd=',
+		                                                        self.sig),
+		                                  follow=False, **extra_headers))
+
 	def test_corrupted_signature(self):
-		pass
+		self.client.login(username=self.user.username, password=self.password)
+		extra_headers = {'HTTP_REFERER': 'http://testserver', 'HTTP_HOST': 'sso.p2pu.org'}
+
+		response = self.client.get('%s?sso=%s&sig=%s' % (reverse('discourse_login'), self.payload, None))
+
+		self.assertRedirects(response, reverse('error-login'))
+
+		self.assertRaises(TypeError,
+		                  self.client.get('%s?sso=%s&sig=%s' % (reverse('discourse_login'), self.payload,
+		                                                        '12345'),
+		                                  follow=False, **extra_headers))
+		self.assertRaises(TypeError,
+		                  self.client.get('%s?sso=%s&sig=%s' % (reverse('discourse_login'), self.payload,
+		                                                        '12345'),
+		                                  follow=False, **extra_headers))
 
 	def test_unapproved_referrerer(self):
 		pass
