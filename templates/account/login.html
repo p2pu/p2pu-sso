@@ -7,12 +7,7 @@
 
 {% block content %}
 	<div class="login-form-wrap col-md-4 col-md-offset-4">
-		<ul class="login-option nav nav-pills col-md-12">
-			<li role="presentation" class="active"><a href="{% url 'account_login' %}"
-					>{% trans 'Log In' %}</a></li>
-			<li role="presentation"><a href="{% url 'account_signup' %}"
-					>{% trans 'Sign Up' %}</a></li>
-		</ul>
+		{% include 'includes/login_register_nav.html' with login_active=True %}
 
 		<h2 class="login-form-title text-center ">{% trans 'Log In' %}</h2>
 
