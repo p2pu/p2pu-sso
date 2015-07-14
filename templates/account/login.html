@@ -12,7 +12,7 @@
 		<h2 class="login-form-title text-center ">{% trans 'Log In' %}</h2>
 
 		{% if socialaccount.providers %}
-			{% comment %}
+
 			<p>{% blocktrans with site.name as site_name %}Please sign in with one
 				of your existing third party accounts. Or, <a href='{{ signup_url }}'>sign up</a>
 				for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
@@ -28,7 +28,7 @@
 			</div>
 
 			{% include 'socialaccount/snippets/login_extra.html' %}
-			{% endcomment %}
+
 		{% else %}
 			<p>{% blocktrans %}If you have not created an account yet, then please
 				<a href='{{ signup_url }}'>sign up</a> first.{% endblocktrans %}</p>
