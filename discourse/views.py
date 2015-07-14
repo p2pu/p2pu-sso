@@ -23,7 +23,7 @@ def login(request):
 	payload = request.GET.get('sso')
 	signature = request.GET.get('sig')
 
-	if u'None' in [payload, signature]:
+	if not payload and not signature:
 		Log.error('Payload or signature not existing for user %s' % request.user.email)
 		return HttpResponseRedirect(reverse('error-login'))
 
