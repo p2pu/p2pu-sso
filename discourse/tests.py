@@ -10,8 +10,6 @@ from django.core.urlresolvers import reverse
 # Tests needed for tasks:#
 # * signup new user coming from discourse
 
-
-
 class LoginDiscourseTests(TestCase):
 	payload = 'bm9uY2U9OTNjNzcyMWEyNzc2ZjJmZGZmZWMwODhiYTRjNGJmODUmcmV0dXJu%0AX3Nzb191cmw9aHR0cCUzQSUyRiUyRmRxZXJpa2EucDJwdS5vcmclMkZzZXNz%0AaW9uJTJGc3NvX2xvZ2lu%0A'
 	sig = '71154aefbe94005852e7918aceba7d98a58d7a0978d519a7779857ed8f854f31'

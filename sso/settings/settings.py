@@ -35,6 +35,8 @@ INSTALLED_APPS = (
 	'allauth.account',
 	'allauth.socialaccount',
 	'allauth.socialaccount.providers.google',
+	'allauth.socialaccount.providers.github',
+	'allauth.socialaccount.providers.persona',
 	'djrill',
 	'djcelery',
 )
@@ -143,6 +145,12 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_PROVIDERS = {
+	'persona': {
+		'AUDIENCE': 'http://localhost:8000',
+	}
+}
 
 ###########################################
 # CELERY SETTINGS
