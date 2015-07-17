@@ -129,7 +129,7 @@ DEFAULT_FROM_EMAIL = 'admin@p2pu.org'
 ###########################################
 DISCOURSE_BASE_URL = ''
 DISCOURSE_SSO_SECRET = ''
-
+DISCOURSE_BASE_URLS = ''
 
 ###########################################
 # MANDRILL SETTINGS
