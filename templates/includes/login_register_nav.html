@@ -1,0 +1,17 @@
+{% load static %}
+{% load i18n %}
+
+<ul class="login-option nav nav-pills col-md-12">
+	<li role="presentation" {% if login_active %}class="active" {% endif %}>
+		<a href="
+				{% url 'account_login' %}{% if redirect_field_value %}?next={{ redirect_field_value|urlencode }}{% endif %}">
+			{% trans 'Log In' %}
+		</a>
+	</li>
+	<li role="presentation" {% if signup_active %}class="active" {% endif %}>
+		<a href="
+				{% url 'account_signup' %}{% if redirect_field_value %}?next={{ redirect_field_value|urlencode }}{% endif %}">
+			{% trans 'Sign Up' %}
+		</a>
+	</li>
+</ul>
