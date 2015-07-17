@@ -17,7 +17,7 @@ SECRET_KEY = 's29!^ck-rersb**cy4)_md1l_z6v)wt*&nrx@poh5uw0yf9-^b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.p2pu.org', 'localhost', '127.0.0.1']
 
 SITE_ID = 1
 
@@ -35,7 +35,10 @@ INSTALLED_APPS = (
 	'allauth.account',
 	'allauth.socialaccount',
 	'allauth.socialaccount.providers.google',
+	'allauth.socialaccount.providers.github',
+	'allauth.socialaccount.providers.persona',
 	'djrill',
+	'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -114,7 +117,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '/staticfiles/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
@@ -138,8 +141,57 @@ MANDRILL_API_KEY = ''
 ###########################################
 #ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_USERNAME_REQUIRED  = False
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+
+SOCIALACCOUNT_PROVIDERS = {
+	'persona': {
+		'AUDIENCE': 'http://localhost:8000',
+	}
+}
+
+###########################################
+# CELERY SETTINGS
+###########################################
+BROKER_URL = ''
+BROKER_TRANSPORT = ''
+
+#############################################################################
+# Logging settings
+#############################################################################
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'sso.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'propagate': True,
+            'level': 'ERROR',
+        },
+        'discourse': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+    }
+}
+
 
